@@ -11,4 +11,4 @@ sources:
     url: https://www.liberation.fr/
 ---
 
-Troisième exemple. Sur Cloudflare Pages, chaque push sur la branche connectée republie le site automatiquement. Aucune base de données : le contenu vit dans Git.
+Troisième exemple. Le contenu vit dans Git : un `git push` le sauvegarde sur GitHub.

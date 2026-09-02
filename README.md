@@ -1,10 +1,10 @@
 # Mensonges Publics
 
-Site statique listant des mensonges de personnalités publiques, avec sources et bouton pour publier un tweet prérempli sur X.
+Outil **local** pour lister des mensonges de personnalités publiques (avec sources) et publier facilement un tweet prérempli sur X.
 
-Stack : **Astro** · hébergement gratuit : **Cloudflare Pages**.
+Le dépôt GitHub sert de **sauvegarde** : pas besoin d’héberger le site en ligne.
 
-## Développement local
+## Démarrer en local
 
 ```bash
 npm install
@@ -32,30 +32,28 @@ sources:
 ```
 
 3. Rédigez le contexte sous le frontmatter.
-4. Committez et poussez : Cloudflare republie le site.
+4. Sauvegardez sur GitHub (voir ci-dessous).
 
 ## Bouton « Publier sur X »
 
-Sur chaque page détail, le bouton ouvre [l’intent tweet](https://developer.x.com/en/docs/twitter-for-websites/tweet-button/guides/web-intent) avec un texte prérempli + le lien de la page. Connectez-vous à votre compte X, puis validez — **gratuit, sans clé API**.
+Sur chaque page détail, le bouton ouvre un tweet prérempli (personnalité, titre, citation, première source). Connectez-vous à votre compte X, puis validez — **gratuit, sans clé API**.
 
-Mettez à jour `site` dans `astro.config.mjs` avec votre vraie URL Cloudflare pour que les liens du tweet soient corrects.
+## Sauvegarder sur GitHub
 
-## Déployer sur Cloudflare Pages (gratuit)
+Après vos modifications :
 
-1. Poussez ce dépôt sur GitHub (ou GitLab).
-2. [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → connectez le dépôt.
-3. Réglages de build :
-   - **Framework preset** : Astro
-   - **Build command** : `npm run build`
-   - **Build output directory** : `dist`
-   - **Node version** : `22` (variable d’environnement `NODE_VERSION=22` si besoin)
-4. Déployez. L’URL ressemblera à `https://mensonges-publics.pages.dev`.
-5. Remplacez `site` dans `astro.config.mjs` par cette URL (ou votre domaine custom), puis redéployez.
+```bash
+git add .
+git commit -m "Ajoute un mensonge"
+git push
+```
+
+Repo : https://github.com/Kivvi59/mensonges-publics
 
 ## Scripts
 
-| Commande        | Rôle                |
-|-----------------|---------------------|
-| `npm run dev`   | Serveur de dev      |
-| `npm run build` | Build production    |
+| Commande          | Rôle                   |
+|-------------------|------------------------|
+| `npm run dev`     | Serveur de travail     |
+| `npm run build`   | Build (optionnel)      |
 | `npm run preview` | Prévisualiser le build |

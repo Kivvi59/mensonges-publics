@@ -21,13 +21,13 @@ const formatter = new Intl.DateTimeFormat('fr-FR', {
 	year: 'numeric',
 });
 
-const pageUrl = new URL(`/mensonges/${entry.id}/`, Astro.site).href;
 const tweetHref = tweetIntentUrl(
 	tweetTextForMensonge({
 		title: entry.data.title,
 		personality: entry.data.personality,
+		quote: entry.data.quote,
+		sources: entry.data.sources,
 	}),
-	pageUrl,
 );
 ---
 
@@ -78,8 +78,8 @@ const tweetHref = tweetIntentUrl(
 		<section class="share" aria-labelledby="share-title">
 			<h2 id="share-title">Partager</h2>
 			<p>
-				Ouvre X avec un message prérempli. Connectez-vous à votre compte, puis
-				publiez.
+				Ouvre X avec un message prérempli (titre, citation, première source).
+				Connectez-vous à votre compte, puis publiez.
 			</p>
 			<TweetButton href={tweetHref} />
 		</section>
