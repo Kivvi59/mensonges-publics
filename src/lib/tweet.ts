@@ -10,7 +10,7 @@ export function tweetTextForMensonge(opts: {
 	quote?: string;
 	sources?: { label: string; url: string }[];
 }): string {
-	const parts = [`Mensonge de ${opts.personality} : ${opts.title}`];
+	const parts = [`Vous mentez ${opts.personality} : ${opts.title}`];
 
 	if (opts.quote) {
 		parts.push(`« ${opts.quote} »`);
