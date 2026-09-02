@@ -1,0 +1,201 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TweetButton from '../../components/TweetButton.astro';
+import { tweetIntentUrl, tweetTextForMensonge } from '../../lib/tweet';
+
+export async function getStaticPaths() {
+	const mensonges = await getCollection('mensonges');
+	return mensonges.map((entry) => ({
+		params: { id: entry.id },
+		props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formatter = new Intl.DateTimeFormat('fr-FR', {
+	day: 'numeric',
+	month: 'long',
+	year: 'numeric',
+});
+
+const pageUrl = new URL(`/mensonges/${entry.id}/`, Astro.site).href;
+const tweetHref = tweetIntentUrl(
+	tweetTextForMensonge({
+		title: entry.data.title,
+		personality: entry.data.personality,
+	}),
+	pageUrl,
+);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+	<article class="detail wrap">
+		<p class="crumb">
+			<a href="/">← Tous les mensonges</a>
+		</p>
+
+		<header class="head">
+			<p class="meta">
+				<span class="badge">Mensonge</span>
+				<span>{entry.data.personality}</span>
+				<span aria-hidden="true">·</span>
+				<time datetime={entry.data.date.toISOString()}>
+					{formatter.format(entry.data.date)}
+				</time>
+			</p>
+			<h1>{entry.data.title}</h1>
+			{
+				entry.data.quote && (
+					<blockquote>
+						<p>« {entry.data.quote} »</p>
+					</blockquote>
+				)
+			}
+		</header>
+
+		<div class="body">
+			<Content />
+		</div>
+
+		<section class="sources" aria-labelledby="sources-title">
+			<h2 id="sources-title">Sources</h2>
+			<ul>
+				{
+					entry.data.sources.map((source) => (
+						<li>
+							<a href={source.url} target="_blank" rel="noopener noreferrer">
+								{source.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<section class="share" aria-labelledby="share-title">
+			<h2 id="share-title">Partager</h2>
+			<p>
+				Ouvre X avec un message prérempli. Connectez-vous à votre compte, puis
+				publiez.
+			</p>
+			<TweetButton href={tweetHref} />
+		</section>
+	</article>
+</BaseLayout>
+
+<style>
+	.detail {
+		padding: 1.5rem 0 2rem;
+		animation: rise-in 650ms var(--ease) both;
+	}
+
+	.crumb {
+		margin: 0 0 1.5rem;
+		font-size: 0.95rem;
+	}
+
+	.crumb a {
+		text-decoration: none;
+		color: var(--ink-soft);
+	}
+
+	.crumb a:hover {
+		color: var(--brand);
+	}
+
+	.head {
+		margin-bottom: 1.75rem;
+	}
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem 0.6rem;
+		margin: 0 0 0.75rem;
+		color: var(--ink-soft);
+		font-size: 0.92rem;
+	}
+
+	.badge {
+		display: inline-block;
+		padding: 0.15rem 0.45rem;
+		border-radius: 0.25rem;
+		background: var(--signal-soft);
+		color: var(--signal);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	h1 {
+		margin: 0;
+		font-family: var(--font-brand);
+		font-size: clamp(1.9rem, 5vw, 2.7rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+	}
+
+	blockquote {
+		margin: 1.25rem 0 0;
+		padding: 1rem 0 1rem 1.1rem;
+		border-left: 3px solid var(--signal);
+		animation: rise-in 800ms var(--ease) 120ms both;
+	}
+
+	blockquote p {
+		margin: 0;
+		font-family: var(--font-quote);
+		font-size: 1.15rem;
+		font-style: italic;
+		line-height: 1.55;
+		color: var(--ink);
+	}
+
+	.body {
+		color: var(--ink-soft);
+	}
+
+	.body :global(p) {
+		margin: 0 0 1rem;
+	}
+
+	.body :global(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.sources,
+	.share {
+		margin-top: 2.25rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+		animation: rise-in 700ms var(--ease) 200ms both;
+	}
+
+	.sources h2,
+	.share h2 {
+		margin: 0 0 0.75rem;
+		font-family: var(--font-brand);
+		font-size: 1.2rem;
+		letter-spacing: -0.02em;
+	}
+
+	.sources ul {
+		margin: 0;
+		padding-left: 1.1rem;
+	}
+
+	.sources li {
+		margin: 0.35rem 0;
+	}
+
+	.share p {
+		margin: 0 0 1rem;
+		color: var(--ink-soft);
+	}
+</style>

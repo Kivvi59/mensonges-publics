@@ -1,0 +1,48 @@
+---
+interface Props {
+	href: string;
+	label?: string;
+}
+
+const { href, label = 'Publier sur X' } = Astro.props;
+---
+
+<a class="tweet-btn" href={href} target="_blank" rel="noopener noreferrer">
+	<svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16">
+		<path
+			fill="currentColor"
+			d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.227-8.66L1.99 2.25h7.08l4.213 5.622 5.96-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+		></path>
+	</svg>
+	{label}
+</a>
+
+<style>
+	.tweet-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.7rem 1.1rem;
+		border-radius: 999px;
+		background: var(--ink);
+		color: var(--white);
+		font-family: var(--font-body);
+		font-weight: 600;
+		font-size: 0.95rem;
+		text-decoration: none;
+		transition:
+			transform 220ms var(--ease),
+			background 220ms var(--ease);
+	}
+
+	.tweet-btn:hover {
+		background: var(--brand);
+		color: var(--white);
+		transform: translateY(-1px);
+	}
+
+	.tweet-btn:focus-visible {
+		outline: 2px solid var(--brand);
+		outline-offset: 3px;
+	}
+</style>

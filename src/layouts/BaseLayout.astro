@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'Mensonges Publics',
+	description = 'Recensement de propos trompeurs de personnalités publiques, avec sources.',
+} = Astro.props;
+
+const pageTitle =
+	title === 'Mensonges Publics' ? title : `${title} · Mensonges Publics`;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{pageTitle}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Source+Sans+3:wght@400;600;700&family=Syne:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="wrap">
+				<a class="brand" href="/">Mensonges <span>Publics</span></a>
+			</div>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer class="site-footer">
+			<div class="wrap">
+				<p>
+					Chaque entrée cite des sources vérifiables. Les exemples fournis sont
+					des démonstrations à remplacer.
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>
